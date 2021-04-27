@@ -1,0 +1,405 @@
+                                                                                                                                                   
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Customer</title>
+
+    <!--links  to use -->
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+   <link rel="stylesheet" href="{{url_for('static', filename = 'css/subsite.css')}}">
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+   </script>
+   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+   <script src="https://kit.fontawesome.com/016adceb9d.js" crossorigin="anonymous"></script>
+ 
+   <!--end of links to use -->
+
+ 
+ </head>
+ 
+ <body onLoad = "addComboxBoxEventListeners()">
+     <section id="subtitle">
+
+     <nav class="navbar navbar-expand-lg navbar-dark ">
+         <a class=" navbar-brand" href=""> ALADDIN  Customer </a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+         <div class="collapse navbar-collapse" id="navbarNav">
+           <ul class="navbar-nav ml-auto">
+             <li class="nav-item "><a class="nav-link" href='{{url_for('change_pass', type = 'CUSTOMERS' , email = email )}}'>Change Password</a></li>
+             <li class="nav-item"><a class="nav-link" href="{{url_for('home')}}">Sign out </a></li>
+           </ul>
+         </div>
+       </nav>
+ 
+ 
+    </section>
+ 
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+     </script>
+
+    <section id="MainSubtitle">
+
+      <style>
+           #MainSubtitle{
+          background-image: url('{{url_for("static",filename = "images/customer.jpg")}}');
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-size: cover;
+          background-position: 50% 50%;
+
+        }
+
+        h4 {
+              color: white  ;
+              
+            }
+           #Numberofpassengers{
+             margin-right: 40%;
+           }
+
+           #CargoDescription{
+             margin-right: 40%;
+           }
+
+           #TripTime{
+                margin-right: 20%;
+           }
+
+           .Confirmed{
+             margin-right: 75%;
+             margin-top: 20%;
+           
+           }
+
+      </style>
+      
+      <div class="row">
+        <div class="col-lg-6 ">
+          <h1  class="customerWelcome"> Welcome to Aladdin, {{customer_name}} </h1>
+      </div>
+
+
+      
+      <p>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        NEW TRIP  
+        </button>
+      </p>
+
+      <form  class="collapse" id="collapseExample"  method="POST"  > 
+       
+        <div class="form-group">
+          
+          <h3> <span class="label label-default" >Pick Up </span></h3>
+          <select id="pickUpCity" class="form-control">
+            {% for city in CitytoDistricts %}
+              <option value="{{city}}">{{city}}</option> 
+            {% endfor %}
+          </select>
+
+          <select id="pickUpDistricts" class="form-control"><h5>District</h5>
+            {% for dist in CitytoDistricts['Giza'] %}
+              <option value="{{dist}}">{{dist}}</option>
+            {%endfor%}
+          </select>
+
+          <select id="pickUpStreets" name = "PickUpStreet" class="form-control"><h5>Street</h5>
+            {% for street in DistrictToStreets['Faisal'] %}
+              <option value="{{street}}">{{street}}</option>
+            {%endfor%}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <style>
+          
+          </style>
+  
+            <h3> <span class="label label-default">Drop off </span></h3>
+            <select id="dropOffCity" class="form-control" ><h5>City</h5>
+              {% for city in CitytoDistricts %}
+                <option value="{{city}}">{{city}}</option> 
+              {% endfor %}
+            </select>
+            <select id="dropOffDistricts" class="form-control" ><h5>District</h5>
+              {% for dist in CitytoDistricts['Giza'] %}
+              <option value="{{dist}}">{{dist}}</option>
+            {%endfor%}
+            </select>
+            <select id="dropOffStreets" class="form-control" name = "DropOffStreet" ><h5>Street</h5>
+              {% for street in DistrictToStreets['Faisal'] %}
+              <option value="{{street}}">{{street}}</option>
+            {%endfor%}
+            </select>
+          </div>
+
+          <label for="TripTime"><h4>When will your trip start ?</h4></label>
+          <input type="datetime-local" id="TripTime" name="TripTime">
+
+          <label for="Number of passengers"><h4>How many passengers are there ?</h4></label>
+          <input type="number" id="Numberofpassengers" name="Num_Pass">
+
+          <label for="Cargo Description"><h4>Do you have any cargo ?</h4></label>
+          <input type="text" id="CargoDescription" name="Cargo">
+
+      
+      <button type="submit" name = "SubmitTrip" class=" newtrip btn btn-primary">Submit</button>
+
+    </form>
+
+
+<table class="table table-striped table-dark"  id="myTable">
+  <thead>
+    <tr>
+      <th scope="col"> Pick Up Location</th>
+      <th scope="col"> Drop Off Location</th>
+      <th scope="col"> Starts On</th>
+      <th scope="col">          </th>
+    </tr>
+  </thead>
+  <tbody class="newtablecontent">
+    {%for trip_request in trip_requests%}
+    <tr>
+    <th scope="col">{{trip_request["pick_up"]}}</th>
+    <th scope="col">{{trip_request["drop_off"]}}</th>
+    <th scope="col">{{trip_request["start_date"]}}</th>
+    <th scope="col"><button class="btn btn-success" type ="button" onclick="postTripOffers('{{trip_request['start_date']}}')">View Offers</button></th>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>
+
+<section id="Confirmed Trips">
+    <h3> <span class="Confirmed label label-default"> Confirmed Trips </span></h3>
+
+        <table class="table table-striped table-dark"  id="Past-Trip-table">
+          <thead>
+            <tr>
+              <th scope="col">Pick Up </th>
+              <th scope="col">Pick Off</th>
+              <th scope="col">Date </th>
+              <th scope="col">Driver Email</th>
+              <th scope="col">Amount Paid</th>
+              <th scope="col"></th>
+              <th scope="col">Rating ?</th>
+            </tr>
+          </thead>
+          <tbody class="newtablecontent">
+            
+            {%for confirmed_trip in confirmed_trips%}
+            <tr>
+          <th scope="col">{{confirmed_trip["pick_up"]}}</th>
+          <th scope="col">{{confirmed_trip["drop_off"]}}</th>
+          <th scope="col">{{confirmed_trip["start_date"]}}</th>
+          <th scope="col">{{confirmed_trip["Driv_email"]}}</th>
+          <th scope="col">{{confirmed_trip["Fee"]}}</th>
+          <th scope="col"><button  class="btn btn-danger"
+            onClick = "PostComplaint('{{confirmed_trip['Driv_email']}}','{{confirmed_trip['start_date']}}')">
+            Have a Complaint ?
+        </button></th>
+          <th scope="col">
+            <select class="form-control" id = "{{confirmed_trip['Driv_email']}}{{confirmed_trip['start_date']}}" 
+              onchange = "PostRating('{{confirmed_trip['Driv_email']}}','{{confirmed_trip['start_date']}}')">
+              <option value = "1" {% if confirmed_trip['rating'] == 1 %} selected {%endif%}> 🌟 </option>
+              <option value = "2" {% if confirmed_trip['rating'] == 2 %} selected {%endif%}> 🌟🌟 </option>
+              <option value = "3" {% if confirmed_trip['rating'] == 3 %} selected {%endif%}> 🌟🌟🌟 </option>
+              <option value = "4" {% if confirmed_trip['rating'] == 4 %} selected {%endif%}> 🌟🌟🌟🌟 </option>
+              <option value = "5" {% if confirmed_trip['rating'] == 5 %} selected {%endif%}> 🌟🌟🌟🌟🌟 </option>
+            </select>
+          </th>
+          </tr>
+         {%endfor%}
+          </tbody>
+        </table>
+</section>
+
+<script>
+  function PostRating(driv_email,trip_time){
+    value = document.getElementById(driv_email + trip_time).value ;
+
+    let form = document.createElement('form');
+    form.method = "POST";
+    document.body.appendChild(form)
+
+    let name   = document.createElement('input');
+    name.name  = "Driver_email" ;
+    name.value =  driv_email ;
+    name.type  = "hidden" ;
+
+    let rater = document.createElement('input');
+    rater.name  = "Customer_email" ;
+    rater.value =  '{{email}}'; 
+    rater.type  = "hidden" ;
+
+    let date   = document.createElement('input') ;
+    date.name  = "Trip_date" ;
+    date.value = trip_time ; 
+    date.type  = "hidden" ;
+
+    let rating = document.createElement('input') ;
+    rating.name = "rating" ;
+    rating.value = value ;
+    rating.type  = "hidden" ;
+
+    let type  = document.createElement('input')
+    type.name = "RATING"
+    type.value = ""
+
+    form.appendChild(name)
+    form.appendChild(rater)
+    form.appendChild(date)
+    form.appendChild(rating)
+    form.appendChild(type)
+
+    form.submit()
+  }
+  function PostComplaint(driv_email, trip_time){
+    let Description = window.prompt("What's your complaint about this trip ?") ;
+    
+    if(Description === null || Description === ""){
+      window.alert("No Complaint Submitted")
+      return ;
+    }
+
+    let form = document.createElement('form');
+    form.method = "POST";
+    document.body.appendChild(form)
+
+    let name   = document.createElement('input');
+    name.name  = "Driver_email" ;
+    name.value =  driv_email ;
+    name.type  = "hidden" ;
+
+    let complainer = document.createElement('input');
+    complainer.name  = "Customer_email" ;
+    complainer.value =  '{{email}}'; 
+    complainer.type  = "hidden" ;
+
+    let date   = document.createElement('input') ;
+    date.name  = "Trip_date" ;
+    date.value = trip_time ; 
+    date.type  = "hidden" ;
+
+    let complaint = document.createElement('input') ;
+    complaint.name = "Complaint" ;
+    complaint.value = Description ;
+    complaint.type  = "hidden" ;
+     
+    form.appendChild(name) ;
+    form.appendChild(complainer) ;
+    form.appendChild(date) ;
+    form.appendChild(complaint) ;
+
+    form.submit() ;
+} 
+  function postTripOffers(trip_time){
+            let form = document.createElement('form');
+            form.method = "POST";
+            document.body.appendChild(form)
+
+            let name   = document.createElement('input');
+            name.name  = "Customer_email" ;
+            name.value =  '{{email}}' ;
+
+            let date   = document.createElement('input') ;
+            date.name  = "Trip_date" ;
+            date.value = trip_time ; 
+
+            let type   = document.createElement('input') ;
+            type.name  = "VIEW_OFFER" ;
+            type.value = "" ;
+
+            form.appendChild(name) ;
+            form.appendChild(date) ;
+            form.appendChild(type) ;
+
+            form.submit() ;
+  }
+  function addComboxBoxEventListeners(){
+    window.CitytoDistricts   = {
+      {% for city in CitytoDistricts %}
+          '{{city}}' : [
+          {% for district in CitytoDistricts[city] %} '{{district}}', {%endfor%}
+          ],
+      {% endfor %}
+    } ; 
+    window.DistrictToStreets = {
+      {% for district in DistrictToStreets %}
+          '{{district}}' : [
+            {% for street in DistrictToStreets[district] %} '{{street}}', {%endfor%} 
+          ],
+      {% endfor %}
+    } ;
+
+    function ChangeDistrictPickUp(){
+        let districts = window.CitytoDistricts[document.getElementById("pickUpCity").value] ;
+
+        document.getElementById("pickUpDistricts").innerHTML = "" ;
+
+        for(district of districts){
+          let elem = document.createElement('option')
+          elem.value = `${district}`  ;
+          elem.innerHTML = `${district}` ;
+          document.getElementById("pickUpDistricts").appendChild(elem) ;
+        }
+        ChangeStreetsPickUp();
+    }
+    function ChangeDistrictDropOff(){
+      let districts = window.CitytoDistricts[document.getElementById("dropOffCity").value] ;
+
+      document.getElementById("dropOffDistricts").innerHTML = "" ;
+
+      for(district of districts){
+        let elem = document.createElement('option')
+        elem.value = `${district}`  ;
+        elem.innerHTML = `${district}` ;
+        document.getElementById("dropOffDistricts").appendChild(elem) ;
+      }
+      ChangeStreetsDropOff();
+    }
+
+    function ChangeStreetsPickUp(){
+      let streets = window.DistrictToStreets[document.getElementById("pickUpDistricts").value] ;
+
+      document.getElementById("pickUpStreets").innerHTML = "" ;
+
+      for(street of streets){
+        let elem = document.createElement('option')
+        elem.value = `${street}`  ;
+        elem.innerHTML = `${street}` ;
+        document.getElementById("pickUpStreets").appendChild(elem) ;
+      }
+    }
+
+    function ChangeStreetsDropOff(){
+      let streets = window.DistrictToStreets[document.getElementById("dropOffDistricts").value] ;
+
+      document.getElementById("dropOffStreets").innerHTML = "" ;
+
+      for(street of streets){
+        let elem = document.createElement('option')
+        elem.value = `${street}`  ;
+        elem.innerHTML = `${street}` ;
+        document.getElementById("dropOffStreets").appendChild(elem) ;
+      }
+    }
+    document.getElementById("pickUpCity").onchange      = ChangeDistrictPickUp ;
+    document.getElementById("dropOffCity").onchange     = ChangeDistrictDropOff ;
+    document.getElementById("pickUpDistricts").onchange = ChangeStreetsPickUp ;
+    document.getElementById("dropOffDistricts").onchange= ChangeStreetsDropOff ;
+  }
+</script>
+
+</body>
+ </html>
